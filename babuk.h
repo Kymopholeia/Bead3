@@ -4,14 +4,17 @@
 #include "graphics.hpp"
 #include "widget.h"
 
-class babu:public widget
+class babu: public widget
 {
 protected:
-    int fajta;
+    int fajt;
+
 public:
-    babu(int x, int y, int z)
-    virtual void esemeny();
-    virtual void rajz();
+        bool kijel;
+    babu(int x, int y, int z);
+    virtual void esemeny(genv::event ev);
+    virtual void rajz(int fajta);
+    void kijelol(bool kijel,int fajta);
 
 };
 
