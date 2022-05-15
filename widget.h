@@ -7,8 +7,9 @@ protected:
     int x,y,z;
 public:
     widget(int x,int y,int z);
-    virtual void rajz()=0;
+    virtual void rajz(int fajt)=0;
     virtual void esemeny(genv::event ev)=0;
+    virtual bool actual(int ex, int ey);
 
 };
 
