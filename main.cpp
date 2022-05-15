@@ -14,11 +14,9 @@ int main()
 {
 gout.open(XX,YY);
 event ev;
- sakk s(xx,yy);
+sakk s(xx,yy);
 s.background();
     while(gin >> ev&&ev.keycode!=key_escape) {
-
-                //std::cout<<"he?"<<std::endl;
                 s.bab();
                 s.kira();
                 s.esemeny(ev);

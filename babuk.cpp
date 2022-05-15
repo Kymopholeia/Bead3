@@ -244,13 +244,13 @@ int fajta=v[b][a];
                     }
                     else{
                             if(a-1==u||a+1==u)
-                            {
-                                if(v[b][a-1]>6)
+                            {//std::cout<<"wut"<<std::endl;
+                                if(v[b+1][a-1]>6)
                                 {
                                     return true;
                                 }
                                 else{
-                                if(v[b][a+1]>6)
+                                if(v[b+1][a+1]>6)
                                 {
                                     return true;
                                 }
@@ -262,7 +262,7 @@ int fajta=v[b][a];
         }
         if(fajta==7)
         {
-            if(b-1==o)
+            if(b-1==o&&a-2<u&&a+2>u)
                 {
                     if(a==u)
 
@@ -271,20 +271,23 @@ int fajta=v[b][a];
                             return true;
                         }
                         else{return false;}
-
                     }
                     else{
                             if(a-1==u||a+1==u)
                             {
-                                if(v[b][a-1]>6)
+                                std::cout<<v[b-1][a-1]<<' '<<v[b-1][a+1]<<std::endl;
+                                if(v[b-1][a-1]<7&&v[b-1][a-1]>-1)
                                 {
-                                    return false;
+                                    return true;
                                 }
-                                else{if(v[b][a+1]>6)
+                                else{
+                                if(v[b-1][a+1]<7&&v[b-1][a+1]>-1)
                                 {
-                                    return false;
+                                    return true;
                                 }
-                                else{return true;}}
+                                else{return false;}
+                                }
+
 
                             }
                     }
@@ -294,49 +297,309 @@ int fajta=v[b][a];
 
     if (fajta==1||fajta==8)//rook
     {
+        bool he=false;
         if(fajta==1)
         {
+            int p=0;
+            if(a!=u&&b!=o)return false;
+            if(a==u)
+            {if((o>b&&(u<a||u>a))||(o<b&&(u<a||u>a)))return false;
+            if(v[o][a]<7&&v[o][a]>-1)return false;
+            if(v[o][a]>6||v[o][a]==-1)
+            {
+            if(o>=b)
+            {for(int i=b+1;i<=o;i++)
+            {
+                if(v[i][a]<7&&v[i][a]>-1){he=true;}
+                if(v[i][a]>6&&v[i][a]!=-1){p++;}
+                if(p>1){he=true;}
+                if(p==1&&o-b>1){he=true;}
+            }
+            }
+            if(b>=o)
+            {
+                for(int i=b-1;i>=o;i--)
+                {
+                if(v[i][a]<7&&v[i][a]>-1){he=true;}
+                if(v[i][a]>6&&v[i][a]!=-1){p++;}
+                if(p>1){he=true; std::cout<<he<<std::endl;}
+                if(p==1&&b-o>1){he=true;}
+                }
+            }
+            }
+           // std::cout<<v[o][a]<<std::endl;
 
+            if((v[o][a]>6||v[o][a]==-1)&&!he)return true;
+            if(v[o][a]<7||he)return false;
+
+            }else{
+            if(v[b][u]>6||v[b][u]==-1)
+            {if(u>=a)
+            {
+
+                for(int i=a+1;i<=u;i++)
+                {
+
+                if(v[b][i]<7&&v[b][i]>-1){he=true;}///saját csapat
+                if(v[b][i]>6){p++;}///ne ugorjon át többet
+                if(p>1){he=true;}
+                if(p==1&&u-a>1){he=true;}
+                }
+            }
+            if(a>=u)
+            {for(int i=a-1;i>=u;i--)
+                {
+
+                if(v[b][i]<7&&v[b][i]>-1){he=true;}
+                if(v[b][i]>6){p++;}
+                if(p>1){he=true;}
+                if(p==1&&a-u>1){he=true;}
+                }
+            }
+
+            }
+
+            if((v[b][u]>6||v[b][u]==-1)&&!he)return true;
+            else {return false;}
         }
+        }
+
         if(fajta==8)
+
         {
-            for(int i=1;i<8;i++)
+             int p=0;
+             if(a!=u&&b!=o)return false;
+            if(a==u)
+            {if((o>b&&(u<a||u>a))||(o<b&&(u<a||u>a)))return false;
+            if(v[o][a]>6)return false;
+            if(v[o][a]<6||v[o][a]==-1)
             {
-            if(b-i==o)
+            if(o>=b)//std::cout<<"hehe"<<std::endl;
+            {for(int i=b+1;i<=o;i++)
             {
+                if(v[i][a]>6){he=true;}
+                if(v[i][a]<6&&v[i][a]!=-1){p++;}///}
+                if(p>1){he=true;}
+                if(p==1&&o-b>1){he=true;}
+                std::cout<<he<<std::endl;
+            }
+            }
+            if(b>=o)
+            {
+                for(int i=b-1;i>=o;i--)
+                {
+                    if(v[i][a]>6){he=true;}
+                  if(v[i][a]<6&&v[i][a]!=-1){p++;}
+                if(p>1){he=true;}
+                if(p==1&&b-o>1){he=true;}
+                }
+            }
+            }
+
+            if(v[o][a]<7&&!he)return true;
+            if(v[o][a]>7||he)return false;
+
+            }else{
+            if(v[b][u]<6)
+            {if(u>=a)
+            {
+                for(int i=a+1;i<=u;i++)
+                {
+                    if(v[b][i]>6){he=true;}
+                if(v[b][i]<6&&v[b][i]!=-1){p++;}///}
+                if(p>1){he=true;}
+                if(p==1&&u-a>1){he=true;}
+                }
+            }
+            if(a>=u)
+            {for(int i=a-1;i>=u;i--)
+                {
+                    if(v[b][i]>6){he=true;}
+                if(v[b][i]<6&&v[b][i]!=-1){p++;}
+                if(p>1){he=true;}
+                if(p==1&&a-u>1){he=true;}
+                }
+            }
 
             }
-            }
+            if(v[b][u]<7&&!he)return true;
+            else {return false;}
         }
-
-
+        }
     }
     if (fajta==2||fajta==9)//knight
     {
-
     if(fajta==2)
         {
+            if(a+2==u||a-2==u||b+2==o||b-2==o)
+            {
+                //std::cout<<"itt"<<std::endl;
+                if(a==u||b==o){return false;}
+                if(v[o][u]<7&&v[o][u]>-1){return false;}
+                if(v[o][u]>6||v[o][u]==-1){return true;}
+            }else{return false;}
 
         }
-        else{}
+    if(fajta==9)
+        {
+            if(a+2==u||a-2==u||b+2==o||b-2==o)
+            {
+                //std::cout<<"itt"<<std::endl;
+                if(a==u||b==o){return false;}
+                if(v[o][u]>6){return false;}
+                if(v[o][u]<7||v[o][u]==-1){return true;}
+            }else{return false;}
+
+    }
     }
     if (fajta==3||fajta==10)//bishop
     {
-
-    if(fajta==3)
+        int p=0;
+        if(fajta==3)
         {
+            if(std::abs(b-o)!=std::abs(a-u))return false;
+            else{
+                    for(int i=1;i<std::abs(b-o);i++)
+                    {
 
+                    }
+
+            }
+//            if(a==u||b==o)return false;
+//            if(b-o!=a-u||o-b!=u-a)
+//            {
+//                if(b-o!=-a+u||o-b==-u+a)
+//                {
+//            if(u>a)
+//            {
+//              for(int i=1;i<=u-a;i++)
+//              {
+//                  std::cout<<v[o][u]<<' '<<v[b+i][a+i]<<' '<<b<<' '<<a<<' '<<o<<' '<<u<<std::endl;
+//                 if( v[b+i][a+i]<7&&v[b+i][a+i]>-1)return false;
+//                 if(v[b+i][a+i]>6&&v[b+i][a+i]!=-1){p++;}
+//                 if(p>1){return false;}
+//                 if((v[b+i][a+i]==-1||v[b+i][a+i]>6)&&p<2)return true;
+//              }
+//            }
+//            if(u<a)
+//            {
+//              for(int i=1;i<=a-u;i++)
+//              {
+//                 std::cout<<v[o][u]<<' '<<v[b+i][a+i]<<' '<<o<<' '<<b+i<<std::endl;
+//                 if( v[b+i][a+i]<7&&v[b+i][a+i]>-1)return false;
+//                 if(v[b+i][a+i]>6&&v[b+i][a+i]!=-1){p++;}
+//                 if(p>1){return false;}
+//                 if((v[b+i][a+i]==-1||v[b+i][a+i]>6)&&p<2)return true;
+//              }
+
+                }
+        if(fajta==10)
+        {
+        if(std::abs(b-o)!=std::abs(a-u))return false;
+            else
+            {
+
+            }
         }
-        else{}
     }
     if (fajta==4||fajta==11)//queen
     {
+        bool he=false;
         if(fajta==4)
         {
+            if((a>o&&b>u)||(a>o&&b<u)||(a<o&&b>u)||(a<o&&b<u))return false;
+            if(a==u)
+            {if((o>b&&(u<a||u>a))||(o<b&&(u<a||u>a)))return false;
+            if(v[o][a]<7&&v[o][a]!=-1)return false;
+            if(v[o][a]>7||v[o][a]==-1)
+            {
+            if(o>=b)//std::cout<<"hehe"<<std::endl;
+            {for(int i=b+1;i<=o;i++)
+            {
+                if(v[i][a]>6){he=true;}
+               // std::cout<<he<<std::endl;
+            }
+            }
+            if(b>=o)
+            {
+                for(int i=b-1;i>=o;i--)
+                {
+                    if(v[i][a]>6){he=true;}
+                }
+            }
+            }
+            if(v[o][a]<7&&!he)return true;
+            if(v[o][a]>7||he)return false;
+
+            }else{
+            if(v[b][u]<6)
+            {if(u>=a)
+            {
+                for(int i=a+1;i<=u;i++)
+                {
+                    if(v[b][i]>6){he=true;}
+                }
+            }
+            if(a>=u)
+            {for(int i=a-1;i>=u;i--)
+                {
+                    if(v[b][i]>6){he=true;}
+                }
+            }
+
+            }
+            if(v[b][u]<7&&!he)return true;
+            else {return false;}
+        }
 
         }
-        else{}
+        if(fajta==11)
+        {
+            //if((a>o&&b>u)||(a>o&&b<u)||(a<o&&b>u)||(a<o&&b<u))return false;
+            if(a==u)
+            {if((o>b&&(u<a||u>a))||(o<b&&(u<a||u>a)))return false;
+            if(v[o][a]>6)return false;
+            if(v[o][a]<6||v[o][a]==-1)
+            {
+            if(o>=b)//std::cout<<"hehe"<<std::endl;
+            {for(int i=b+1;i<=o;i++)
+            {
+                if(v[i][a]>6){he=true;}
+                //std::cout<<he<<std::endl;
+            }
+            }
+            if(b>=o)
+            {
+                for(int i=b-1;i>=o;i--)
+                {
+                    if(v[i][a]>6){he=true;}
+                }
+            }
+            }
+            if(v[o][a]<7&&!he)return true;
+            if(v[o][a]>7||he)return false;
 
+            }else{
+            if(v[b][u]<6)
+            {if(u>=a)
+            {
+                for(int i=a+1;i<=u;i++)
+                {
+                    if(v[b][i]>6){he=true;}
+                }
+            }
+            if(a>=u)
+            {for(int i=a-1;i>=u;i--)
+                {
+                    if(v[b][i]>6){he=true;}
+                }
+            }
+
+            }
+            if(v[b][u]<7&&!he)return true;
+            else {return false;}
+        }
+        }
     }
     if (fajta==5||fajta==12)//king
     {

@@ -148,7 +148,7 @@ void sakk::esemeny(genv::event ev)
     if(ev.button==btn_right)
     {
         b.igen(m,g,o,u,v);
-        std::cout<<b.igen(m,g,o,u,v)<<std::endl;
+        //std::cout<<b.igen(m,g,o,u,v)<<std::endl;
         if(b.igen(m,g,o,u,v))
         {
         int f=v[m][g];
