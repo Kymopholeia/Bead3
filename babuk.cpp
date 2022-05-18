@@ -296,10 +296,46 @@ int fajta=v[b][a];
         }
 
     if (fajta==1||fajta==8)//rook
-    {
-        bool he=false;
-        if(fajta==1)
-        {
+//    {
+//            if(a!=u&&b!=o)return false;
+//            int p=0;
+//            if(fajta==1)
+//            {
+//                if((a>u||a<u)&&b==o)
+//                {
+//                int zzx=(u-a)/std::abs(a-u);
+//                if(v[b][a+zzx]>6&&v[b][a+zzx]!=-1){p++;}
+//                if(v[b][a+zzx]<7&&v[b][a+zzx]!=-1){p++;}
+//                }
+//                if((b>o||b<o)&&a==u)
+//                {
+//                int zzy=(o-b)/std::abs(b-o);
+//                if(v[b+zzy][a]>6&&v[b+zzy][a]!=-1){p++;}
+//                if(v[b+zzy][a]<7&&v[b+zzy][a]!=-1){p++;}
+//                }
+//                if((v[o][u]>6||v[o][u]==-1)&&p<1)return true;
+//                if((v[o][u]<7&&v[o][u]!=-1)||p!=0){return false;}
+//            }
+//            if(fajta==8)
+//            {
+//                    if((a>u||a<u)&&b==o)
+//                    {
+//                    int zzx=(u-a)/std::abs(a-u);
+//                    if(v[b][a+zzx]<7&&v[b][a+zzx]!=-1){p++;}
+//                    if(v[b][a+zzx]>6&&v[b][a+zzx]!=-1){p++;}
+//                    }
+//                    if((b>o||b<o)&&a==u)
+//                    {
+//                    int zzy=(o-b)/std::abs(b-o);
+//                    if(v[b+zzy][a]<7&&v[b+zzy][a]!=-1){p++;}
+//                    if(v[b+zzy][a]>6&&v[b+zzy][a]!=-1){p++;}
+//                    }
+//                    if((v[o][u]<7||v[o][u]==-1)&&p<1)return true;
+//                    if((v[o][u]>6&&v[o][u]!=-1)||p!=0){return false;}
+//
+//            }
+//    }
+        {bool he;
             int p=0;
             if(a!=u&&b!=o)return false;
             if(a==u)
@@ -327,7 +363,6 @@ int fajta=v[b][a];
                 }
             }
             }
-           // std::cout<<v[o][a]<<std::endl;
 
             if((v[o][a]>6||v[o][a]==-1)&&!he)return true;
             if(v[o][a]<7||he)return false;
@@ -362,7 +397,7 @@ int fajta=v[b][a];
             if((v[b][u]>6||v[b][u]==-1)&&!he)return true;
             else {return false;}
         }
-        }
+
 
         if(fajta==8)
 
@@ -428,187 +463,167 @@ int fajta=v[b][a];
         }
     }
     if (fajta==2||fajta==9)//knight
-    {
-    if(fajta==2)
-        {
-            if(a+2==u||a-2==u||b+2==o||b-2==o)
+    {std::cout<<a<<' '<<b<<' '<<u<<' '<<o<<std::endl;
+//            if(a+2==u||a-2==u||b+2==o||b-2==o)
+                if((a+2==u&&b+1==o)||(a+1==u&&b+2==o)||(a+2==u&&b-1==o)||(a+1==u&&b-2==o)||(a-2==u&&b+1==o)||(a-1==u&&b-2==o)||(a-2==u&&b-1==o)||(a-1==u&&b+2==o))
             {
-                //std::cout<<"itt"<<std::endl;
                 if(a==u||b==o){return false;}
+                if(fajta==2)
+                {
                 if(v[o][u]<7&&v[o][u]>-1){return false;}
                 if(v[o][u]>6||v[o][u]==-1){return true;}
-            }else{return false;}
-
-        }
-    if(fajta==9)
-        {
-            if(a+2==u||a-2==u||b+2==o||b-2==o)
-            {
-                //std::cout<<"itt"<<std::endl;
-                if(a==u||b==o){return false;}
+                }
+                if(fajta==9)
+                {
                 if(v[o][u]>6){return false;}
                 if(v[o][u]<7||v[o][u]==-1){return true;}
-            }else{return false;}
+                }
 
-    }
+            }else{return false;}
     }
     if (fajta==3||fajta==10)//bishop
     {
+        bool tt;
         int p=0;
-        if(fajta==3)
-        {
+        if(fajta==3){}
+
             if(std::abs(b-o)!=std::abs(a-u))return false;
-            else{
-                    for(int i=1;i<std::abs(b-o);i++)
-                    {
+            else{if(abs(a-u)>0){
+                            int zzx=(u-a)/std::abs(a-u);
+                            int  zzy=(o-b)/std::abs(a-u);
+                            int uu=zzx;int yiy=zzy;
+                            int ii=std::abs(a-u);
+                            if(std::abs(a-u)==1)ii=ii+1;
+                        for(int i=1;i<ii;i++)
+                        {
+                            if(fajta==3)
+                            {
+                            if(v[b+zzy][a+zzx]>6&&v[b+zzy][a+zzx]!=-1){p++;}
+                            if(v[b+zzy][a+zzx]<7&&v[b+zzy][a+zzx]!=-1){p++;}
+                            if(v[o][u]>6&&p<1)tt=true;std::cout<<p<<std::endl;
+                            if((v[o][u]<7&&v[o][u]!=-1)||p!=0){tt=false;}
+                            else{tt=true;}
+                            }
+                            if(fajta==10)
+                            {
+                            if(v[b+zzy][a+zzx]<7&&v[b+zzy][a+zzx]!=-1){p++;}
+                            if(v[b+zzy][a+zzx]>6&&v[b+zzy][a+zzx]!=-1){p++;}
+                            if(v[o][u]<7&&p<1)tt=true;std::cout<<p<<std::endl;
+                            if((v[o][u]>6&&v[o][u]!=-1)||p!=0){tt=false;}
+                            else{tt=true;}
+                            }
+                            zzx=zzx+uu;
+                            zzy=zzy+yiy;
+                        }
+                        std::cout<<"     "<<v[b+zzy][a+zzx]<<std::endl<<std::endl;;
+                        if(tt)return true;
+                        else{return false;}
 
-                    }
-
-            }
-//            if(a==u||b==o)return false;
-//            if(b-o!=a-u||o-b!=u-a)
-//            {
-//                if(b-o!=-a+u||o-b==-u+a)
-//                {
-//            if(u>a)
-//            {
-//              for(int i=1;i<=u-a;i++)
-//              {
-//                  std::cout<<v[o][u]<<' '<<v[b+i][a+i]<<' '<<b<<' '<<a<<' '<<o<<' '<<u<<std::endl;
-//                 if( v[b+i][a+i]<7&&v[b+i][a+i]>-1)return false;
-//                 if(v[b+i][a+i]>6&&v[b+i][a+i]!=-1){p++;}
-//                 if(p>1){return false;}
-//                 if((v[b+i][a+i]==-1||v[b+i][a+i]>6)&&p<2)return true;
-//              }
-//            }
-//            if(u<a)
-//            {
-//              for(int i=1;i<=a-u;i++)
-//              {
-//                 std::cout<<v[o][u]<<' '<<v[b+i][a+i]<<' '<<o<<' '<<b+i<<std::endl;
-//                 if( v[b+i][a+i]<7&&v[b+i][a+i]>-1)return false;
-//                 if(v[b+i][a+i]>6&&v[b+i][a+i]!=-1){p++;}
-//                 if(p>1){return false;}
-//                 if((v[b+i][a+i]==-1||v[b+i][a+i]>6)&&p<2)return true;
-//              }
-
+                        }
                 }
-        if(fajta==10)
-        {
-        if(std::abs(b-o)!=std::abs(a-u))return false;
-            else
-            {
-
-            }
-        }
     }
     if (fajta==4||fajta==11)//queen
     {
-        bool he=false;
-        if(fajta==4)
+        bool tt;
+        int p=0;
+        if(std::abs(b-o)==std::abs(a-u))
+        { if(std::abs(a-u)>0)
         {
-            if((a>o&&b>u)||(a>o&&b<u)||(a<o&&b>u)||(a<o&&b<u))return false;
-            if(a==u)
-            {if((o>b&&(u<a||u>a))||(o<b&&(u<a||u>a)))return false;
-            if(v[o][a]<7&&v[o][a]!=-1)return false;
-            if(v[o][a]>7||v[o][a]==-1)
-            {
-            if(o>=b)//std::cout<<"hehe"<<std::endl;
-            {for(int i=b+1;i<=o;i++)
-            {
-                if(v[i][a]>6){he=true;}
-               // std::cout<<he<<std::endl;
-            }
-            }
-            if(b>=o)
-            {
-                for(int i=b-1;i>=o;i--)
+            int zzx=(u-a)/std::abs(a-u);
+            int  zzy=(o-b)/std::abs(a-u);
+            int uu=zzx;int yiy=zzy;
+            int ii=std::abs(a-u);
+                if(std::abs(a-u)==1)ii=ii+1;
+                for(int i=1;i<ii;i++)
                 {
-                    if(v[i][a]>6){he=true;}
+                    if(fajta==4)
+                    {
+                        if(v[b+zzy][a+zzx]>6&&v[b+zzy][a+zzx]!=-1){p++;}
+                        if(v[b+zzy][a+zzx]<7&&v[b+zzy][a+zzx]!=-1){p++;}
+                        if(v[o][u]>6&&p<1)tt=true;
+                        if((v[o][u]<7&&v[o][u]!=-1)||p!=0){tt=false;}
+                    else{tt=true;}
+                    }
+                        if(fajta==11)
+                        {
+                        if(v[b+zzy][a+zzx]<7&&v[b+zzy][a+zzx]!=-1){p++;}
+                        if(v[b+zzy][a+zzx]>6&&v[b+zzy][a+zzx]!=-1){p++;}
+                        if(v[o][u]<7&&p<1)tt=true;
+                        if((v[o][u]>6&&v[o][u]!=-1)||p!=0){tt=false;}
+                        else{tt=true;}
+                        }
+                zzx=zzx+uu;
+                zzy=zzy+yiy;
                 }
-            }
-            }
-            if(v[o][a]<7&&!he)return true;
-            if(v[o][a]>7||he)return false;
-
-            }else{
-            if(v[b][u]<6)
-            {if(u>=a)
-            {
-                for(int i=a+1;i<=u;i++)
-                {
-                    if(v[b][i]>6){he=true;}
-                }
-            }
-            if(a>=u)
-            {for(int i=a-1;i>=u;i--)
-                {
-                    if(v[b][i]>6){he=true;}
-                }
-            }
-
-            }
-            if(v[b][u]<7&&!he)return true;
-            else {return false;}
-        }
-
-        }
-        if(fajta==11)
-        {
-            //if((a>o&&b>u)||(a>o&&b<u)||(a<o&&b>u)||(a<o&&b<u))return false;
-            if(a==u)
-            {if((o>b&&(u<a||u>a))||(o<b&&(u<a||u>a)))return false;
-            if(v[o][a]>6)return false;
-            if(v[o][a]<6||v[o][a]==-1)
-            {
-            if(o>=b)//std::cout<<"hehe"<<std::endl;
-            {for(int i=b+1;i<=o;i++)
-            {
-                if(v[i][a]>6){he=true;}
-                //std::cout<<he<<std::endl;
-            }
-            }
-            if(b>=o)
-            {
-                for(int i=b-1;i>=o;i--)
-                {
-                    if(v[i][a]>6){he=true;}
-                }
-            }
-            }
-            if(v[o][a]<7&&!he)return true;
-            if(v[o][a]>7||he)return false;
-
-            }else{
-            if(v[b][u]<6)
-            {if(u>=a)
-            {
-                for(int i=a+1;i<=u;i++)
-                {
-                    if(v[b][i]>6){he=true;}
-                }
-            }
-            if(a>=u)
-            {for(int i=a-1;i>=u;i--)
-                {
-                    if(v[b][i]>6){he=true;}
-                }
-            }
-
-            }
-            if(v[b][u]<7&&!he)return true;
-            else {return false;}
+                if(tt)return true;
+                else{return false;}
         }
         }
-    }
-    if (fajta==5||fajta==12)//king
+        else
+        {std::cout<<std::abs(a-u)<<std::endl;
+            if(a==u||b==u){int ii;
+            if(fajta==4){if(std::abs(a-u)>0){ ii=std::abs(a-u);}else{int ii=1;};
+            int zzx=(u-a)/ii;
+            int zzy=(o-b)/ii;
+            int ee=zzx;
+            int ez=zzy;
+            std::cout<<"itt"<<std::endl;
+                if(std::abs(a-u)==1)ii=ii+1;
+                for(int i=1;i<ii;i++)
+                {
+                if((a>u||a<u)&&b==o)
+                {
+                if(v[b][a+zzx]>6&&v[b][a+zzx]!=-1){p++;}
+                if(v[b][a+zzx]<7&&v[b][a+zzx]!=-1){p++;}
+                }
+                if((b>o||b<o)&&a==u)
+                {
+                if(v[b+zzy][a]>6&&v[b+zzy][a]!=-1){p++;}
+                if(v[b+zzy][a]<7&&v[b+zzy][a]!=-1){p++;}
+                }
+
+                if((v[o][u]>6||v[o][u]==-1)&&p<=1)return true;
+                if((v[o][u]<7&&v[o][u]!=-1)||p!=0){return false;}
+                zzx+=ee;
+                zzy+=ez;
+                }}
+            }
+            if(fajta==11)
+            {
+                    if((a>u||a<u)&&b==o)
+                    {
+                    int zzx=(u-a)/std::abs(a-u);
+                    if(v[b][a+zzx]<7&&v[b][a+zzx]!=-1){p++;}
+                    if(v[b][a+zzx]>6&&v[b][a+zzx]!=-1){p++;}
+                    }
+                    if((b>o||b<o)&&a==u)
+                    {
+                    int zzy=(o-b)/std::abs(b-o);
+                    if(v[b+zzy][a]<7&&v[b+zzy][a]!=-1){p++;}
+                    if(v[b+zzy][a]>6&&v[b+zzy][a]!=-1){p++;}
+                    }
+                    if((v[o][u]<7||v[o][u]==-1)&&p<1)return true;
+                    if((v[o][u]>6&&v[o][u]!=-1)||p!=0){return false;}
+
+            }
+        }
+        }
+if (fajta==5||fajta==12)//king
     {
-
-    if(fajta==5)
-        {
-
+        if((a+1==u&&(b-1==o||b==o||b+1==o))||(a-1==u&&(b-1==o||b==o||b+1==o)))
+        {std::cout<<a<<' '<<b<<' '<<u<<' '<<o<<std::endl;
+            if(fajta==5)
+            {
+                if(v[o][u]<7&&v[o][u]!=-1)return false;
+                else{return true;}
+            }
+            if(fajta==12)
+            {
+                if(v[o][u]>6)return false;
+                else{return true;}
+            }
         }
-        else{}
+        else{return false;}
     }
 }
 
@@ -620,12 +635,8 @@ void babu:: kijelol(bool kijel, int fajta)
     y=y*z;
     x=x+3;
     y=y+7;
-    //std::cout<<kijel<<std::endl;
         gout<<move_to(x-2,y-6)<<color(0,0,250)<<line(z,0)<<line(0,z)<<line(-z,0)<<line(0,-z);
         gout<<move_to(x-3,y-7)<<color(0,0,250)<<line(z,0)<<line(0,z)<<line(-z,0)<<line(0,-z);
-        //std::cout<<fajta<<std::endl;
-       // kijel=false;
-
     }
 
 }
