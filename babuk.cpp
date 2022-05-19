@@ -135,6 +135,16 @@ void babu::rajz(int fajta)
 
 
 }
+bool isEnemy(int myFigura, int otherFigura)
+{
+    if (otherFigura == -1)
+        return false;
+    if (myFigura < 7 && otherFigura > 6)
+        return true;
+    if (myFigura > 6 && otherFigura < 7)
+        return true;
+    return false;
+}
 void babu::lehetseges(int fajta,int v[8][8])
 {
 
@@ -297,32 +307,87 @@ int fajta=v[b][a];
 
     if (fajta==1||fajta==8)//rook
     {
-      //  bool k=0;
-        if(fajta==1)
-        {
-            std::cout<<v[b][a]<<std::endl;
-            for(int i=a+1;i<u;i++)if(v[b][i]<7&&v[b][i]!=-1)return false;
-            for(int i=a-1;i>u;i++)if(v[b][i]<7&&v[b][i]!=-1)return false;
-            for(int i=b+1;i<o;i++)if(v[i][a]<7&&v[i][a]!=-1)return false;
-            for(int i=b-1;i>o;i++)if(v[i][a]<7&&v[i][a]!=-1)return false;
-            if((a==u||b==o)&&(v[o][u]>7||v[o][u]==-1)){return true;}
-            else{return false;}
-        }
-        if(fajta==8)
-        {
-            //std::cout<<v[b][a]<<std::endl;
-            bool he1=false;
-            bool he2=false;
-            bool he3=false;
-            bool he4=false;
-            for(int i=a+1;i<=u;i++){if(v[b][i]>6&&v[b][i]!=-1){std::cout<<"1"<<' '<<v[b][i]<<' '<<i<<' '<<u<<' '<<b<<std::endl;i=u;he1=true;}}
-            for(int i=a-1;i>=u;i--){if(v[b][i]>6&&v[b][i]!=-1){std::cout<<"2"<<' '<<v[b][i]<<' '<<i<<' '<<u<<' '<<b<<std::endl;i=u;he2=true;}}
-            for(int i=b+1;i<=o;i++){if(v[i][a]>6&&v[i][a]!=-1){std::cout<<"3"<<' '<<v[i][a]<<' '<<i<<' '<<o<<' '<<b<<std::endl;i=o;he3=true;}}
-            for(int i=b-1;i>=o;i--){if(v[i][a]>6&&v[i][a]!=-1){std::cout<<"4"<<' '<<v[i][a]<<' '<<i<<' '<<o<<' '<<b<<std::endl;i=o;he4=true;}}
-            if(!he1&&!he2&&!he3&&!he4){
-            if((a==u||b==o)&&(v[o][u]<7||v[o][u]==-1)){return true;}else{return false;}}else{return false;}
+        if(a!=u||b!=o)return false;
+        else{int p=0;int pp=0;
+            if(fajta==8)
+            {
+                if(v[o][u]>6)return false;
+                if(a==u)
+                {
+                    if(b>o){for(int i=b-1;i>o;i--){if(v[i][a]<7&&v[i][a]!=-1){p++;}if(v[i][a]>7)pp++;}}
+                    if(b<o){for(int i=b+1;i<o;i++){if(v[i][a]<7&&v[i][a]!=-1){p++;}if(v[i][a]>7)pp++;}}
+                }
+                if(b==o)
+                {
+                    if(a>u){for(int i=a-1;i>u;i--){if(v[b][i]<7&&v[b][i]!=-1){p++;}if(v[b][i]>7)pp++;}}
+                    if(a<u){for(int i=a+1;i<u;i++){if(v[b][i]<7&&v[b][i]!=-1){p++;}if(v[b][i]>7)pp++;}}
+                }
+                if(v[o][u]<7&&p<2)return true;
+                if(v[o][u]==-1&&pp<1)return true;
+                else{return false;}
+
+            }
+
+
+
 
         }
+//{
+//        int toType = v[o][u];
+//        bool enemy = isEnemy(fajta, toType);
+//
+//        if (!enemy && toType != -1)
+//            return false;
+//
+//        // handle up-down movement until collision
+//        if (b < o)
+//        {
+//            for (int i = b + 1; i < o; i++)
+//            {
+//                if (v[i][a] != -1)
+//                {
+//                    return false;
+//                }
+//            }
+//        }
+//        else
+//        {
+//            for (int i = b - 1; i > o; i--)
+//            {
+//                if (v[i][a] != -1)
+//                {
+//                    return false;
+//                }
+//            }
+//        }
+//    }
+      //  bool k=0;
+//        if(fajta==1)
+//        {
+//            std::cout<<v[b][a]<<std::endl;
+//            for(int i=a+1;i<u;i++)if(v[b][i]<7&&v[b][i]!=-1)return false;
+//            for(int i=a-1;i>u;i++)if(v[b][i]<7&&v[b][i]!=-1)return false;
+//            for(int i=b+1;i<o;i++)if(v[i][a]<7&&v[i][a]!=-1)return false;
+//            for(int i=b-1;i>o;i++)if(v[i][a]<7&&v[i][a]!=-1)return false;
+//            if((a==u||b==o)&&(v[o][u]>7||v[o][u]==-1)){return true;}
+//            else{return false;}
+//        }
+//        if(fajta==8)
+//        {
+//            //std::cout<<v[b][a]<<std::endl;
+//            bool he1=false;
+//            bool he2=false;
+//            bool he3=false;
+//            bool he4=false;
+//            int p=0;
+//            for(int i=a+1;i<=u;i++){if(v[b][i]>6&&v[b][i]!=-1){std::cout<<"1"<<' '<<v[b][i]<<' '<<i<<' '<<u<<' '<<b<<' '<<p<<std::endl;i=u;he1=true;}if(v[b][i]<7&&v[b][i]!=-1){p++;std::cout<<"1"<<' '<<p<<std::endl;}}
+//            for(int i=a-1;i>=u;i--){if(v[b][i]>6&&v[b][i]!=-1){std::cout<<"2"<<' '<<v[b][i]<<' '<<i<<' '<<u<<' '<<b<<' '<<p<<std::endl;i=u;he2=true;}if(v[b][i]<7&&v[b][i]!=-1){p++;std::cout<<"2"<<' '<<p<<std::endl;}}
+//            for(int i=b+1;i<=o;i++){if(v[i][a]>6&&v[i][a]!=-1){std::cout<<"3"<<' '<<v[i][a]<<' '<<i<<' '<<o<<' '<<b<<' '<<p<<std::endl;i=o;he3=true;}if(v[i][a]<7&&v[i][a]!=-1){p++;std::cout<<"3"<<' '<<p<<std::endl;}}
+//            for(int i=b-1;i>=o;i--){if(v[i][a]>6&&v[i][a]!=-1){std::cout<<"4"<<' '<<v[i][a]<<' '<<i<<' '<<o<<' '<<b<<' '<<p<<std::endl;i=o;he4=true;}if(v[i][a]<7&&v[i][a]!=-1){p++;std::cout<<"4"<<' '<<p<<std::endl;}}
+//            if(!he1&&!he2&&!he3&&!he4){
+//            if((a==u||b==o)&&(v[o][u]<7||v[o][u]==-1)&&p<2){return true;}else{return false;}}else{return false;}
+//
+//        }
 //            if(a!=u&&b!=o)return false;
 //            int p=0;
 //            if(fajta==1)
@@ -543,25 +608,24 @@ int fajta=v[b][a];
 //                    if((v[o][u]>6&&v[o][u]!=-1)||p!=0){return false;}
 //            }
 //            }
-//        }
-//    if (fajta==2||fajta==9)//knight
-//    {std::cout<<a<<' '<<b<<' '<<u<<' '<<o<<std::endl;
-////            if(a+2==u||a-2==u||b+2==o||b-2==o)
-//                if((a+2==u&&b+1==o)||(a+1==u&&b+2==o)||(a+2==u&&b-1==o)||(a+1==u&&b-2==o)||(a-2==u&&b+1==o)||(a-1==u&&b-2==o)||(a-2==u&&b-1==o)||(a-1==u&&b+2==o))
-//            {
-//                if(a==u||b==o){return false;}
-//                if(fajta==2)
-//                {
-//                if(v[o][u]<7&&v[o][u]>-1){return false;}
-//                if(v[o][u]>6||v[o][u]==-1){return true;}
-//                }
-//                if(fajta==9)
-//                {
-//                if(v[o][u]>6){return false;}
-//                if(v[o][u]<7||v[o][u]==-1){return true;}
-//                }
-//
-//            }else{return false;}
+}
+    if (fajta==2||fajta==9)//knight
+    {std::cout<<a<<' '<<b<<' '<<u<<' '<<o<<std::endl;
+                if((a+2==u&&b+1==o)||(a+1==u&&b+2==o)||(a+2==u&&b-1==o)||(a+1==u&&b-2==o)||(a-2==u&&b+1==o)||(a-1==u&&b-2==o)||(a-2==u&&b-1==o)||(a-1==u&&b+2==o))
+            {
+                if(a==u||b==o){return false;}
+                if(fajta==2)
+                {
+                if(v[o][u]<7&&v[o][u]>-1){return false;}
+                if(v[o][u]>6||v[o][u]==-1){return true;}
+                }
+                if(fajta==9)
+                {
+                if(v[o][u]>6){return false;}
+                if(v[o][u]<7||v[o][u]==-1){return true;}
+                }
+
+            }else{return false;}
    }
     if (fajta==3||fajta==10)//bishop
     {
@@ -640,29 +704,35 @@ int fajta=v[b][a];
                 if(tt)return true;
                 else{return false;}
         }
+        }else{
+        int toType = v[o][u];
+        bool enemy = isEnemy(fajta, toType);
+
+        if (!enemy && toType != -1)
+            return false;
+
+        // handle up-down movement until collision
+        if (b < o)
+        {
+            for (int i = b + 1; i < o; i++)
+            {
+                if (v[i][a] != -1)
+                {
+                    return false;
+                }
+            }
         }
         else
         {
-            if(fajta==4)
-        {
-            std::cout<<v[b][a]<<std::endl;
-            for(int i=a+1;i<u;i++)if(v[b][i]<7&&v[b][i]!=-1)return false;
-            for(int i=a-1;i>u;i++)if(v[b][i]<7&&v[b][i]!=-1)return false;
-            for(int i=b+1;i<o;i++)if(v[i][a]<7&&v[i][a]!=-1)return false;
-            for(int i=b-1;i>o;i++)if(v[i][a]<7&&v[i][a]!=-1)return false;
-            if((a==u||b==o)&&(v[o][u]>7||v[o][u]==-1)){return true;}
-            else{return false;}
+            for (int i = b - 1; i > o; i--)
+            {
+                if (v[i][a] != -1)
+                {
+                    return false;
+                }
+            }
         }
-        if(fajta==11)
-        {
-            std::cout<<v[b][a]<<std::endl;
-            for(int i=a+1;i<u;i++){if(v[b][i]>6&&v[b][i]!=-1)return false;}
-            for(int i=a-1;i>u;i--){if(v[b][i]>6&&v[b][i]!=-1)return false;}
-            for(int i=b+1;i<o;i++)if(v[i][a]>6&&v[i][a]!=-1)return false;
-            for(int i=b-1;i>o;i--)if(v[i][a]>6&&v[i][a]!=-1)return false;
-            if((a==u||b==o)&&(v[o][u]>6||v[o][u]==-1)){return true;}
-            else{return false;}
-        }
+    }
 //            if(a==u||b==u){int ii;
 //            if(fajta==4){if(std::abs(a-u)>0){ ii=std::abs(a-u);}else{ii=std::abs(b-o);};
 //            int zzx=(u-a)/ii;
@@ -717,7 +787,6 @@ int fajta=v[b][a];
 //                    if((v[o][u]>6&&v[o][u]!=-1)||p!=0){return false;}
 //
 //            }
-        }
         }
 if (fajta==5||fajta==12)//king
     {
