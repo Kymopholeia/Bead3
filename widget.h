@@ -1,18 +1,15 @@
 #ifndef WIDGET_H_INCLUDED
 #define WIDGET_H_INCLUDED
 
-class widget
+class Widget
 {
 protected:
-    int x,y,z;
+    int x, y, z;
+
 public:
-    widget(int x,int y,int z);
-    virtual void rajz(int fajt)=0;
-    virtual void esemeny(genv::event ev)=0;
-    virtual bool actual(int ex, int ey);
-
+    Widget(int x, int y, int z);
+    virtual void rajz() = 0;
+    bool actual(int ex, int ey);
 };
-
-
 
 #endif // WIDGET_H_INCLUDED

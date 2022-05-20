@@ -6,22 +6,33 @@
 
 using namespace genv;
 
-const int XX=401;
-const int YY=401;
-int xx=XX;
-int yy=YY;
+const int XX = 401;
+const int YY = 401;
+int xx = XX;
+int yy = YY;
 int main()
 {
-gout.open(XX,YY);
-event ev;
-sakk s(xx,yy);
-s.background();
-    while(gin >> ev&&ev.keycode!=key_escape) {
-                s.bab();
-                s.kira();
-                s.esemeny(ev);
+    gout.open(XX, YY);
+    event ev;
+    Sakk s(xx);
+    bool vegevan = false;
+    while (gin >> ev && ev.keycode != key_escape)
+    {s.esemeny(ev);
+        if (!vegevan)
+        {s.artmaster();
+        int eredmeny = s.sakkMatt();
+        if (eredmeny != 0)
+        {vegevan = true;
+            if (eredmeny == 1)
+            {gout << move_to(0, 0) << color(255, 255, 255) << box(XX, YY);
+            }
+                else
+                {gout << move_to(0, 0) << color(0, 0, 0) << box(XX, YY);
+                }
+            }
+        }
 
-gout<<refresh;
+        gout << refresh;
     }
     return 0;
 }

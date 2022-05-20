@@ -6,166 +6,143 @@
 #include <iostream>
 
 using namespace genv;
-sakk::sakk(int _x,int _y):x(_x),y(_y)
+Sakk::Sakk(int meret) : meret(meret)
 {
-l=(x)/8;
-if(x<400){x=400;y=400;l=50;}
-kezd=true;
-
-    int h=-1;
-        for(int i=0;i<8;i++)
+    doboz = (meret) / 8;
+    kezd = true;
+    for (int i = 0; i < 8; i++)
+    {for (int j = 0; j < 8; j++)
+        {v[i][j] = -1;}
+    }
+    int k = 0;
+    int p = 1;
+    while (k < 8)
     {
-        //std::cout<<"kecske"<<std::endl;
-        for (int j=0;j<8;j++)
-        {
-           // std::cout<<i<<std::endl;
-            v[i][j]=0;
-            //std::cout<<j<<std::endl;
-        }
+        v[0][k] = p;
+        v[1][k] = p + 1;
+        v[2][k] = p + 2;
+        v[3][k] = p + 3;
+        v[4][k] = p + 4;
+        v[5][k] = p + 2;
+        v[6][k] = p + 1;
+        v[7][k] = p;
+        k += 7;p += 7;
     }
 
+    for (int i = 0; i < 8; i++)
+    {
+        v[i][1] = 0;
+        v[i][6] = 7;
+    }
 }
 
-void sakk::background()
+void Sakk::artmaster()
 {
-
-    int mag= (y-1)/8;
-    int szel= (x-1)/8;
-    for(int i=0;i<x;i+=2*mag)//fehér
+    for (int i = 0; i < 8; i++)
     {
-        for (int j=0;j<y;j+=2*szel)
+        for (int j = 0; j < 8; j++)
         {
-            gout<<color(255,255,255)<<move_to(i,j)<<box(50,50);
+            genv::color szin = genv::color(0, 0, 0);
+            if ((i + j) % 2 == 0)
+            {szin = genv::color(255, 255, 255);}
+            gout << move_to(i * doboz, j * doboz) << szin << box(doboz, doboz);
         }
     }
-     for(int i=mag;i<x;i+=2*mag)
+    if (kx != -1 && ky != -1)
     {
-        for (int j=szel;j<y;j+=2*szel)
+        gout << move_to(kx * doboz, ky * doboz) << color(0, 0, 255) << line(doboz, 0) << line(0, doboz) << line(-doboz, 0) << line(0, -doboz);
+        gout << move_to(kx * doboz + 1, ky * doboz + 1) << color(255, 0, 0) << line(doboz - 2, 0) << line(0, doboz - 2) << line(-doboz + 2, 0) << line(0, -doboz + 2);
+        Babu babu = Babu(kx, ky, doboz, v[kx][ky]);
+        for (int i = 0; i < 8; i++)
         {
-            gout<<color(255,255,255)<<move_to(i,j)<<box(50,50);
+                for (int j = 0; j < 8; j++)
+            {
+                if (v[kx][ky] && babu.mozoghat(i, j, v))
+                {
+                gout << move_to(i * doboz, j * doboz) << color(255, 0, 0) << line(doboz, 0) << line(0, doboz) << line(-doboz, 0) << line(0, -doboz);
+                    gout << move_to(i * doboz+1, j * doboz+1) << color(0, 0, 255) << line(doboz-1, 0) << line(0, doboz-2) << line(-doboz-1, 0) << line(0, -doboz-2);
+                }
+            }
         }
     }
-
-
-        for(int i=mag;i<x;i+=2*mag)//fekete
+    for (int i = 0; i < 8; i++)
     {
-        for (int j=0;j<y;j+=2*szel)
+        for (int j = 0; j < 8; j++)
         {
-            gout<<color(0,0,0)<<move_to(i,j)<<box(50,50);
-        }
-    }
-     for(int i=0;i<x;i+=2*mag)
-    {
-        for (int j=szel;j<y;j+=2*szel)
-        {
-            gout<<color(0,0,0)<<move_to(i,j)<<box(50,50);
+            Babu babu(i, j, doboz, v[i][j]);
+            babu.rajz();
         }
     }
 }
-void sakk:: bab()
+void Sakk::esemeny(genv::event ev)
 {
-
-    if(kezd)
+    if (ev.type == ev_mouse && (ev.button == btn_left || ev.button == btn_right))
     {
-        int k=0;
-        int p=1;
-        while(k<8)
-        {
-        v[k][0]=p;
-        v[k][1]=p+1;
-        v[k][2]=p+2;
-        v[k][3]=p+3;
-        v[k][4]=p+4;
-        v[k][5]=p+2;
-        v[k][6]=p+1;
-        v[k][7]=p;
-        k+=7;
-        p+=7;
+        int ex = ev.pos_x;
+        int ey = ev.pos_y;
+        int mezoX = ex / doboz;
+        int mezoY = ey / doboz;
 
+        if (ev.button == btn_left)
+        {
+            kx = -1;
+            ky = -1;
+            int figura = v[mezoX][mezoY];
+            if (figura != -1)
+            {
+                if (fj && figura > 6 || !fj && figura < 7)
+                {
+                    kx = mezoX;
+                    ky = mezoY;
+                }
+            }
         }
 
-        for(int i=0;i<8;i++)
+        if (ev.button == btn_right && kx != -1 && ky != -1)
         {
-            v[1][i]=0;;
-            v[6][i]=7;
+            Babu babu(kx, ky, doboz, v[mezoX][mezoY]);
+            if (babu.mozoghat(mezoX, mezoY, v))
+            {
+                v[mezoX][mezoY] = v[kx][ky];
+                v[kx][ky] = -1;
+                kx = -1;
+                ky = -1;
+                fj = !fj;
+            }
         }
-    for(int i=2;i<6;i++)
-    {
-        for (int j=0;j<8;j++)
-        {
-           v[i][j]=-1;
-        }
+
+        artmaster();
     }
-
-    }
-    kezd=false;
 }
-void sakk::kira()
+int Sakk::sakkMatt()
 {
-
-    for(int i=0;i<8;i++)
+    bool fehhal = true;
+    bool fekhal = true;
+    for (int i = 0; i < 8; i++)
     {
-        for (int j=0;j<8;j++)
+        for (int j = 0; j < 8; j++)
         {
-           babu b(j,i,50);
-           //std::cout<<b.actual(ev.pos_x,ev.pos_y)<<std::endl;
-           //if(b.actual(ev.pos_x,ev.pos_y)&&v[i][j]>-1)std::cout<<v[i][j]<<std::endl;
-           //std::cout<<v[i][j]<<std::endl;
-           b.rajz(v[i][j]);
+            if (v[i][j] == 12)
+            {
+                fehhal = false;
+            }
+        }
+    }
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            if (v[i][j] == 5)
+            {
+                fekhal = false;
+            }
         }
     }
 
-}
-void sakk::esemeny(genv::event ev)
-{
-    if(ev.type==ev_mouse&&(ev.button==btn_left||ev.button==btn_right))
-    {
+    if (fehhal)return -1;
 
-   int ex=ev.pos_x;
-    int ey=ev.pos_y;
-    int u=ex/50;
-    int  o=ey/50;
+    else if (fekhal)return 1;
 
-    babu b(u,o,l);
-        if(ev.button==btn_left)
-        {
-
-       if(v[o][u]>-1)
-       {
-
-           // std::cout<<b.kijel<<std::endl;
-            b.kijel=!b.kijel;
-           // std::cout<<b.kijel<<std::endl;
-            b.kijelol(b.kijel, v[o][u]);
-            m=o;g=u;
-           // std::cout<<m<<' '<<g<<' '<<o<<std::endl;
-            b.lehetseges(v[o][u],v);
-       }
-        }
-
-
-
-    if(ev.button==btn_right)
-    {
-        b.igen(m,g,o,u,v);
-        //std::cout<<b.igen(m,g,o,u,v)<<std::endl;
-        if(b.igen(m,g,o,u,v))
-        {
-        int f=v[m][g];
-        v[m][g]=-1;
-        // std::cout<<v[m][g]<<std::endl;
-        v[o][u]=f;
-        background();
-        kira();
-        }
-        else{b.kijel=!b.kijel; background();
-        kira();}
-
-
-        //std::cout<<"fe"<<' '<<f<<std::endl;
-
-
-    }
-    }
+    else return 0;
 
 }

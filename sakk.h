@@ -2,21 +2,19 @@
 #define SAKK_H_INCLUDED
 
 #include <vector>
-//#include <iostream>
-class sakk
+
+class Sakk
 {
-    int x,y,l;
-    int melyik;
-    int v [8][8]={-1};
-    int m,g;
+    int meret, doboz;
+    int v[8][8] = {-1};
+    int kx, ky = -1;
+    bool fj = true;
+
 public:
-
     bool kezd;
-    sakk(int x, int y);
-    void background();
-    void bab();
-    void kira();
+    Sakk(int meret);
+    void artmaster();
     void esemeny(genv::event ev);
-
+    int sakkMatt();
 };
 #endif // SAKK_H_INCLUDED
